@@ -37,7 +37,7 @@ function GetUpcomingEvents() {
 CheckLogin(function(data) {
 	$('#login').html('<a href="">Edit Profile</a>');
 }, function(){
-	$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/twitter">Login</a>');
+	$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/twitter?success="'+window.location+'>Login</a>');
 });
 
 GetNextEvent();
