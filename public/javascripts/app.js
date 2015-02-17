@@ -13,7 +13,9 @@ function GetNextEvent() {
 		var eventDate = moment().format(data["events"]["startDateTime"]);
 		if(!moment(eventDate).isSame(moment(), 'day')){
 			$('#no-event-happening').html('<p>No event happening today!</p>');
+			$('#next-event-happening').html('Next Event: <a target="_blank" href="' + data["events"]["rsvpUrl"] + '">' + data["events"]["title"] + "</a>")
 			$('#no-event-happening').show();
+			$('#next-event-happening').show();
 		} else {
 			window.location.replace(document.URL+data["events"]["id"]);
 		}
