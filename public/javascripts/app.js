@@ -32,9 +32,30 @@ function GetNextEvent() {
 function GetEventByID(ID) {
 	$.getJSON("https://api.tnyu.org/v1.0/events/" + ID, function(data) {
 		$('#event-happening').html('<h3>'+ data["events"]["title"] + '</h3><p class="lead">' + data["events"]["description"] + '</p>');
-		
 		CheckLogin(function(){
-			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="#" role="button">Check in</a></p>');
+			$('#event-happening').append('<p><a class="btn btn-lg btn-success" id="checkin" role="button">Check in</a></p>');
+			$('#checkin').click(function(){
+				CheckLogin(function(data) {
+					var userID = data["people"]["id"];
+					var eventID = IDPresent();
+					if (eventID) {
+						$.ajax({
+							type: 'POST',
+							url: '/checkin',
+							contentType: 'application/json',
+							data: JSON.stringify({ "userid": userID, "currentEvent" : eventID }),
+							success: function(data){
+								$('#no-event-happening').html('<p>Checkin Successful!</p>');
+								$('#no-event-happening').show();
+								return;
+							}
+						});
+					};
+				}, function() {
+					$('#no-event-happening').html('<p>Checkin failed</p>');
+					$('#no-event-happening').show();
+				});
+			});
 		}, function(){
 			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'" role="button">Sign into your account</a></p>');
 		});
@@ -63,7 +84,7 @@ $(document).ready(function() {
 	var currentID = IDPresent();
 	if(currentID != -1){
 		GetEventByID(currentID);
-		return
-	}
+	} else {
 		GetNextEvent();
+	}
 });
