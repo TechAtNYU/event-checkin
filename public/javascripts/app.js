@@ -7,6 +7,13 @@ function CheckLogin(success, failed) {
 	});
 }
 
+function IDPresent() {
+	if(window.location.pathname.length != 1){
+		return window.location.pathname.split("/")[1]
+	}
+	return -1;
+}
+
 function GetNextEvent() {
 	$.getJSON("https://api.tnyu.org/v1.0/events/upcoming", function(data) {
 		var todaysDate = new Date();
@@ -22,6 +29,19 @@ function GetNextEvent() {
 	});
 }
 
+function GetEventByID(ID) {
+	$.getJSON("https://api.tnyu.org/v1.0/events/" + ID, function(data) {
+		$('#event-happening').html('<h3>'+ data["events"]["title"] + '</h3><p class="lead">' + data["events"]["description"] + '</p>');
+		
+		CheckLogin(function(){
+			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="#" role="button">Check in</a></p>');
+		}, function(){
+			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'" role="button">Sign into your account</a></p>');
+		});
+		$('#event-happening').show();
+	});
+}
+
 function Get10NextEvents() {
 	$.getJSON("https://api.tnyu.org/v1.0/events", function(data) {
 		
@@ -34,10 +54,16 @@ function GetUpcomingEvents() {
 	});
 }
 
-CheckLogin(function(data) {
-	$('#login').html('<a href="">Edit Profile</a>');
-}, function(){
-	$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'">Login</a>');
+$(document).ready(function() {
+	CheckLogin(function(data) {
+		$('#login').html('<a href="">Edit Profile</a>');
+	}, function(){
+		$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'">Login</a>');
+	});
+	var currentID = IDPresent();
+	if(currentID != -1){
+		GetEventByID(currentID);
+		return
+	}
+		GetNextEvent();
 });
-
-GetNextEvent();

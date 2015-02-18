@@ -1,8 +1,6 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
 }
 
-a {
-  color: #00B7FF;
-}
+.im-centered { margin: auto; max-width: 300px;}
