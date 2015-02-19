@@ -57,7 +57,7 @@ function GetEventByID(ID) {
 				});
 			});
 		}, function(){
-			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'" role="button">Sign into your account</a></p>');
+			$('#event-happening').append('<p><a class="btn btn-lg btn-success" href="https://api.tnyu.org/v1.0/auth/facebook?success='+window.location+'" role="button">Sign into your account</a></p>');
 		});
 		$('#event-happening').show();
 	});
@@ -79,7 +79,7 @@ $(document).ready(function() {
 	CheckLogin(function(data) {
 		$('#login').html('<a href="">Edit Profile</a>');
 	}, function(){
-		$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/twitter?success='+window.location+'">Login</a>');
+		$('#login').html('<a href="https://api.tnyu.org/v1.0/auth/facebook?success='+window.location+'">Login</a>');
 	});
 	var currentID = IDPresent();
 	if(currentID != -1){
