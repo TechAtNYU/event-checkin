@@ -1,0 +1,19 @@
+extends ./layout.jade
+
+block body
+  p DANKe
+
+block scripts
+  script.
+    $(function() {
+      var isSharedComputer = window.location.search.match(/config/i);
+      // we need to log the user out of facebook and 
+      // go back to the start for the next person in line.
+      if(isSharedComputer) {
+        function done() {
+          var eventUrl = [window.location.protocol, '//', window.location.host, window.location.pathname.toString().replace('thanks', 'show')].join('');
+          window.location = "https://api.tnyu.org/v1.0/auth/facebook/logOut?doExternalServiceLogout=true&next=" + encodeURIComponent(eventUrl);
+        }
+        setTimeout(done, 5000);
+      }
+    });

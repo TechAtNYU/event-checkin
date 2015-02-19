@@ -1,0 +1,31 @@
+[
+  {
+    "name": "showEvents",
+    "path": "/",
+    "handler": "Checkin.showEvents"
+  },
+
+  {
+    "name": "showConfiguredEvent",
+    "path": "/show/:event_id",
+    "handler": "Checkin.showConfiguredEvent"
+  },
+
+  {
+    "name": "configureSharedDevice",
+    "path": "/configure",
+    "handler": "Checkin.configure"
+  },
+
+  {
+    "name": "thanks",
+    "path": "/thanks/:event_id",
+    "handler": "Checkin.thanks"
+  },
+
+  {
+    "name": "checkin",
+    "path": "/checkin/:event_id",
+    "handler": "Checkin.checkin"
+  }
+]

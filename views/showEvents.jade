@@ -1,0 +1,26 @@
+extends ./layout.jade
+
+//mixins
+mixin checkinButton(event_id, label)
+  a(id="checkin", role="button", href="/checkin/" + event_id + (fromConfig ? "?fromConfig=1" : ''))= label
+
+block body
+  section#events
+    if !(events instanceof Array)
+      h2= events.title
+      +checkinButton(events.id, "Check in to this Event")
+
+    else if events.length == 0
+      h2 Hold your horses.
+      p.
+        We know tech@nyu events are exciting but, unfortunately, our next one
+        isn't for at least a couple hours. You're just going to have to be patient.
+        In the mean time, check out our full <a href="http://techatnyu.org/#event-calendar">events calendar</a>.
+
+    else
+      table
+      each event in events
+        tr
+          th= event.title
+          td
+            +checkinButton(event.id, "Check in")
