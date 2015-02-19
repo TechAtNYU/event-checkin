@@ -2,12 +2,14 @@ extends ./layout.jade
 
 //mixins
 mixin checkinButton(event_id, label)
-  a(id="checkin", role="button", href="/checkin/" + event_id + (fromConfig ? "?fromConfig=1" : ''))= label
+  a(class="button flatButton", role="button", href="/checkin/" + event_id + (fromConfig ? "?fromConfig=1" : ''))= label
 
 block body
   section#events
     if !(events instanceof Array)
       h2= events.title
+      p= events.description
+
       +checkinButton(events.id, "Check in to this Event")
 
     else if events.length == 0
