@@ -1,0 +1,17 @@
+extends ./layout.jade
+
+block scripts
+  script.
+    $(function() {
+      $('input').click(function() {
+        $(this).select();
+      });
+    });
+
+block body
+  table(style="width:100%")
+    each event in events
+      tr
+        th= event.title
+        td
+          input(value= event.checkInUrl, style="width:15em")

@@ -37,6 +37,11 @@ module.exports = {
       rejectUnauthorized: false
     }, function(err, response, body) {
       var events = body.events instanceof Array ? body.events : [body.events];
+
+      events.forEach(function(event) {
+        event.checkInUrl = urlFor("showConfiguredEvent", {absolute: true, params: {event_id: event.id}});
+      })
+
       res.render('configure', {events: events});
     });
   }
