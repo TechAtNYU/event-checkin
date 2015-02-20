@@ -4,7 +4,7 @@ var API_BASE_URL = "https://api.tnyu.org/v1.0/";
 module.exports = {
   showEvents: function(req, res, next, urlFor) {
     request({
-      url: API_BASE_URL + "events/up-next",
+      url: API_BASE_URL + "events/check-in-eligible",
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
