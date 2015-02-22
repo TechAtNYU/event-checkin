@@ -13,7 +13,7 @@ var app = express(), port = process.env.PORT || 3000;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('port', port);
-app.set('host', (app.get('env') === 'development' ? 'lvh.me' : 'checkin.techatnyu.org'));
+app.set('host', (app.get('env') === 'development' ? 'lvh.me:'+ port : 'checkin.techatnyu.org'));
 
 //static stuff
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //router
-var checkinRouter = router(require('./config/routes.json'), app.get('host') + ':' + port);
+var checkinRouter = router(require('./config/routes.json'), app.get('host'));
 app.use(checkinRouter.handle({'Checkin': checkinController}));
 
 // catch 404 and forward to error handler
