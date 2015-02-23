@@ -32,9 +32,7 @@ module.exports = {
 
   configure: function(req, res, next, urlFor) {
     request({
-      // include non-public events so board members can 
-      // create check in pages, e.g., for our eboard meetings.
-      url: "https://api.tnyu.org/v1.0/events/next-10",
+      url: "https://api.tnyu.org/v1.0/events/next-10-public",
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
