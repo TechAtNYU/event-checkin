@@ -32,7 +32,7 @@ module.exports = {
 
   configure: function(req, res, next, urlFor) {
     request({
-      url: "https://api.tnyu.org/v1.0/events/next-10-public",
+      url: "https://api.tnyu.org/v1.0/events/next-10-publicly",
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
