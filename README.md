@@ -1,7 +1,7 @@
 Event Signin
-####
+====
 
-Very basic and terribly coded event-sign in platform for our events. This will live [here](http://checkin.techatnyu.org).
+- Master runs on a githook
 
 Aims
 
