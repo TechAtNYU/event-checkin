@@ -27,5 +27,11 @@
     "name": "checkin",
     "path": "/checkin/:event_id",
     "handler": "Checkin.checkin"
+  },
+
+   {
+    "name": "number",
+    "path": "/number/:event_id",
+    "handler": "Checkin.number"
   }
 ]

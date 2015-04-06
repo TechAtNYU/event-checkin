@@ -44,5 +44,20 @@ module.exports = {
 
       res.render('configure', {events: events});
     });
-  }
+  },
+
+  number: function(req, res, next, urlFor) {
+    request({
+      url: API_BASE_URL + "events/" + req.params.event_id,
+      json: true,
+      rejectUnauthorized: false
+    }, function(err, response, body) {
+      var events = body.events instanceof Array ? body.events : [body.events];
+      var attendeeNumber = 0;
+      if (events[0] && events[0].links && events[0].links.attendees){
+        attendeeNumber = events[0].links.attendees.ids.length;
+      }
+      res.render('number', {data : {'attendees' : attendeeNumber}});
+    });
+  },
 }
