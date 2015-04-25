@@ -20,7 +20,7 @@ block scripts
         $('.shared').show();
         function done() {
           var eventUrl = [window.location.protocol, '//', window.location.host, window.location.pathname.toString().replace('thanks', 'show')].join('');
-          window.location = "https://api.tnyu.org/v1.0/auth/facebook/logOut?doExternalServiceLogout=true&next=" + encodeURIComponent(eventUrl);
+          window.location = "https://api.tnyu.org/v1.0/auth/facebook/logOut?doExternalServiceLogout=true&success=" + encodeURIComponent(eventUrl);
         }
         setTimeout(done, 4000);
       }
