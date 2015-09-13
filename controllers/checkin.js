@@ -1,5 +1,5 @@
 var request = require('request-promise');
-var API_BASE_URL = "https://api.tnyu.org/v1.0/";
+var API_BASE_URL = "https://api.tnyu.org/v2/";
 
 module.exports = {
   showEvents: function(req, res, next, urlFor) {
@@ -8,7 +8,7 @@ module.exports = {
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
-      res.render('showEvents', {events: body.events});
+      res.render('showEvents', {events: body.data});
     });
   },
 
@@ -18,7 +18,7 @@ module.exports = {
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
-      res.render('showEvents', {events: body.events, fromConfig: true});
+      res.render('showEvents', {events: body.data, fromConfig: true});
     });
   },
 
@@ -32,12 +32,11 @@ module.exports = {
 
   configure: function(req, res, next, urlFor) {
     request({
-      url: "https://api.tnyu.org/v1.0/events/next-10-publicly",
+      url: "https://api.tnyu.org/v2/events/next-10-publicly",
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
-      var events = body.events instanceof Array ? body.events : [body.events];
-
+      var events = body.data instanceof Array ? body.data : [body.data];
       events.forEach(function(event) {
         event.checkInUrl = urlFor("showConfiguredEvent", {absolute: true, params: {event_id: event.id}});
       })
@@ -52,7 +51,7 @@ module.exports = {
       json: true,
       rejectUnauthorized: false
     }, function(err, response, body) {
-      var events = body.events instanceof Array ? body.events : [body.events];
+      var events = body.data instanceof Array ? body.data : [body.data];
       var attendeeNumber = 0;
       if (events[0] && events[0].links && events[0].links.attendees){
         attendeeNumber = events[0].links.attendees.ids.length;
