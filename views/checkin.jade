@@ -6,10 +6,10 @@ block scripts
       var eventId = window.location.pathname.substring(9)
         , user;
 
-      $.getJSON("https://api.tnyu.org/v1.0/people/me")
+      $.getJSON("https://api.tnyu.org/v2/people/me")
         .done(function(data) { 
           // if we're already logged in, let's do the check in.
-          $.getJSON('https://api.tnyu.org/v1.0/events/' + eventId + '/check-in')
+          $.getJSON('https://api.tnyu.org/v2/events/' + eventId + '/check-in')
             .done(function() {
               window.location.pathname = '/thanks/' + eventId;
             })
@@ -19,7 +19,7 @@ block scripts
         })
         .fail(function() {
           // try to log in if we aren't already
-          window.location = "https://api.tnyu.org/v1.0/auth/facebook?success=" + encodeURIComponent(window.location);
+          window.location = "https://api.tnyu.org/v2/auth/facebook?success=" + encodeURIComponent(window.location);
         });
     });
   

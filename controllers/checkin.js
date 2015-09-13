@@ -53,8 +53,8 @@ module.exports = {
     }, function(err, response, body) {
       var events = body.data instanceof Array ? body.data : [body.data];
       var attendeeNumber = 0;
-      if (events[0] && events[0].links && events[0].links.attendees){
-        attendeeNumber = events[0].links.attendees.ids.length;
+      if (events[0] && events[0].links && events[0].links.attendees && events[0].links.attendees.linkage){
+        attendeeNumber = events[0].links.attendees.linkage.length;
       }
       res.render('number', {data : {'attendees' : attendeeNumber}});
     });

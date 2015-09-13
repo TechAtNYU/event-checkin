@@ -7,8 +7,8 @@ mixin checkinButton(event_id, label)
 block body
   section#events
     if !(events instanceof Array)
-      h2= events.title
-      p= events.description
+      h2= events.attributes.title
+      p= events.attributes.description
 
       +checkinButton(events.id, "Check in to this Event")
 
@@ -23,6 +23,6 @@ block body
       table
       each event in events
         tr
-          th= event.title
+          th= event.attributes.title
           td
             +checkinButton(event.id, "Check in")
