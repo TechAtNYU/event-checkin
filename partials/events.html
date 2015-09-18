@@ -1,0 +1,24 @@
+<div cg-busy="{promise: loadingPromise, templateUrl:'partials/loadingtemplate.html'}">
+    <div ng-if="events">
+        <section id="events">
+            <div ng-if="events.length == 0">
+                <h2>Hold your horses.</h2>
+                <p>We know tech@nyu events are exciting but, unfortunately, our next one
+                isn't for at least a couple hours. You're just going to have to be patient.
+                In the mean time, check out our full <a href="http://techatnyu.org/#event-calendar">events calendar</a>.</p>
+            </div>
+            <div ng-if="events.length == 1">
+                <h2>{{events[0].attributes.title}}</h2>
+                <p>{{events[0].attributes.description}}</p>
+                <a role="button" class="button flatButton" ui-sref="checkin({id: events[0].id })">Check in to this Event</a>
+            </div>
+            <table ng-if="events.length > 1" ng-repeat="event in events">
+                <tr>
+                    <th><p>{{event.attributes.title}}</p></th>
+                    <td><a role="button" class="button flatButton" ui-sref="checkin({id: event.id })">Check in to this Event</a></td>
+                </tr>
+            </table>
+            <div ui-view></div>
+        </section>
+    </div>
+</div>
