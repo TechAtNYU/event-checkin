@@ -1,3 +1,8 @@
+# AngularJS & Node.JS .gitignore file
+.DS_Store
+Makefile
+static
+
 # Logs
 logs
 *.log
@@ -16,34 +21,35 @@ coverage
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
-# node-waf configuration
-.lock-wscript
-
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
 # Dependency directory
+# Commenting this out is preferred by some people, see
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
 
-.DS_Store
-.AppleDouble
-.LSOverride
+# Users Environment Variables
+.lock-wscript
 
-# Icon must end with two \r
-Icon
+# AngularJS client dependencies
+/build/
+/benchpress-build/
 
+gen_docs.disable
+test.disable
+regression/temp*.html
+performance/temp*.html
+.idea/workspace.xml
 
-# Thumbnails
-._*
+angular.js.tmproj
+bower_components/
+angular.xcodeproj
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+.idea
+.agignore
+.lvimrc
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+libpeerconnection.log
+/tmp/
+/scripts/bower/bower-*
