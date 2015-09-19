@@ -3,7 +3,10 @@
   text-align: center;
 }
 
-.im-centered { margin: auto; max-width: 300px;}
+.im-centered {
+    margin: auto;
+    max-width: 300px;
+}
 
 .loading-template {
     text-align:center;
