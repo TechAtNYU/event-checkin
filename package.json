@@ -1,6 +1,6 @@
 {
   "name": "checkin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "http-server ./app -p 3000 -c-1",
