@@ -1,8 +1,8 @@
-<span ng-if="thanks == true">
+<div ng-if="thanks == true">
     <header>
         <h1>You're All Set!</h1>
     </header>
     <p>Thanks for checking in. We hope you enjoy the event.</p>
-    <p style="display:none" class="shared">You'll be <b>automatically signed out of facebook</b> in a few seconds so the next person can check in too.</p>
-    <p style="display:none" class="personal">You can close this page now!</p>
-</span>
+    <p ng-if="shared == true">You'll be <b>automatically signed out of facebook</b> in a few seconds so the next person can check in too.</p>
+    <p ng-if="personal == true">You can close this page now!</p>
+</div>
