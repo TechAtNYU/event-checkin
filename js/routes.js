@@ -10,7 +10,7 @@ angular.module('app')
 			controller: 'MainCtrl'
 		})
 		.state('checkin', {
-			url: '/checkin/:id',
+			url: '/checkin/:id/:config?',
 			templateUrl: 'partials/checkin.html',
 			controller: 'EventCtrl'
 		});
