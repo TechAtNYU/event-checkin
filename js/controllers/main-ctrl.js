@@ -4,7 +4,7 @@ angular
 .module('app.controllers')
 .controller('MainCtrl', function($scope, $location) {
 	$scope.shared = false;
-	if ($location.search() && $location.search()['shared'] == 'true') {
+	if ($location.search() && $location.search().shared === 'true') {
 		$scope.shared = true;
 	}
 })
@@ -35,7 +35,7 @@ angular
 				.get()
 				.then(function() {
 					$scope.thanks = true;
-					if ($stateParams.config == "true"){
+					if ($stateParams.config === 'true') {
 						$scope.shared = true;
 						$scope.signOutExternalService();
 					} else {
@@ -44,7 +44,7 @@ angular
 				});
 		})
 		.catch(function(res) {
-		   var status = res.data.errors[0].status;
+			var status = res.data.errors[0].status;
 			if (status === '401') {
 				$scope.signIn();
 			}
