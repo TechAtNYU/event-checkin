@@ -17,10 +17,10 @@ angular
 	};
 
 	$scope.signOutExternalService = function() {
-		// var eventUrl = [window.location.protocol, '//', window.location.host,
-		// 	window.location.pathname.toString().replace('thanks', 'show')]
-		// 	.join('');
-		var eventUrl = 'http://checkin.techatnyu.org/#/?shared=true';
+		var eventUrl = [window.location.protocol, '//', window.location.host,
+			window.location.pathname.toString().replace('thanks', 'show')]
+			.join('');
+		console.log(eventUrl);
 		var url = 'https://api.tnyu.org/v2/auth/facebook/logOut?doExternalServiceLogout=true&success=' +
 			encodeURIComponent(eventUrl);
 		window.location = url;
