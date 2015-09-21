@@ -1,11 +1,12 @@
 'use strict';
+
 angular.module('app.services', ['restangular']);
 angular.module('app.controllers', ['app.services']);
 angular.module('app',
-			   ['ngSanitize', 'ui.router', 'ui.bootstrap', 'restangular',
-			   'app.services', 'app.directives',
-			   'app.controllers', 'cgBusy', 'facebook',
-			   ]).config(function(RestangularProvider) {
+				['ngSanitize', 'ui.router', 'ui.bootstrap', 'restangular',
+				 'app.services', 'app.directives',
+				 'app.controllers', 'cgBusy',
+				]).config(function(RestangularProvider) {
 	RestangularProvider.setBaseUrl('https://api.tnyu.org/v2');
 	// Configuring Restangular to work with JSONAPI spec
 	RestangularProvider.setDefaultHeaders({
@@ -48,6 +49,4 @@ angular.module('app',
 	});
 }).config(function(datepickerConfig) {
 	datepickerConfig.showWeeks = false;
-}).config(function(FacebookProvider) {
-	FacebookProvider.init('854282147947366');
 });
