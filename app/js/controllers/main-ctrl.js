@@ -2,15 +2,26 @@
 
 angular
 .module('app.controllers')
-.controller('MainCtrl', function($scope, $location) {
+.controller('MainCtrl', function($scope, $location, Facebook) {
+
+	$scope.getLoginStatus = function() {
+	  Facebook.getLoginStatus(function(response) {
+		console.log(response);
+		if(response.status === 'connected') {
+		  $scope.loggedIn = true;
+		} else {
+		  $scope.loggedIn = false;
+		}
+	  });
+	};
+
 	$scope.shared = false;
 	if ($location.search() && $location.search().shared === 'true') {
 		$scope.shared = true;
 	}
+	$scope.getLoginStatus();
 })
-.controller('EventCtrl', function($scope, $rootScope, $location, $stateParams, $state,
-		$interval, Restangular) {
-
+.controller('EventCtrl', function($scope, $location, $stateParams, Restangular) {
 	$scope.signIn = function() {
 		var url = 'https://api.tnyu.org/v2/auth/facebook?success=' +
 			window.encodeURIComponent($location.absUrl());

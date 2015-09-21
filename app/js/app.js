@@ -4,7 +4,7 @@ angular.module('app.controllers', ['app.services']);
 angular.module('app',
 			   ['ngSanitize', 'ui.router', 'ui.bootstrap', 'restangular',
 			   'app.services', 'app.directives',
-			   'app.controllers', 'cgBusy'
+			   'app.controllers', 'cgBusy', 'facebook',
 			   ]).config(function(RestangularProvider) {
 	RestangularProvider.setBaseUrl('https://api.tnyu.org/v2');
 	// Configuring Restangular to work with JSONAPI spec
@@ -46,6 +46,7 @@ angular.module('app',
 		});
 		return data;
 	});
-}).config(function(datepickerConfig) {
+}).config(function(datepickerConfig, FacebookProvider) {
 	datepickerConfig.showWeeks = false;
+	FacebookProvider.init('854282147947366');
 });
