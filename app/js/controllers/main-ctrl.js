@@ -3,10 +3,10 @@
 angular
 .module('app.controllers')
 .controller('MainCtrl', function($scope, $location) {
-	$scope.shared = false;
-	if ($location.search() && $location.search().shared === 'true') {
-		$scope.shared = true;
-	}
+	$scope.shared = true;
+	// if ($location.search() && $location.search().shared === 'true') {
+	// 	$scope.shared = true;
+	// }
 })
 .controller('EventCtrl', function($scope, $rootScope, $location, $stateParams, $state, $interval, Restangular) {
 
