@@ -46,7 +46,8 @@ angular.module('app',
 		});
 		return data;
 	});
-}).config(function(datepickerConfig, FacebookProvider) {
+}).config(function(datepickerConfig) {
 	datepickerConfig.showWeeks = false;
+}).config(function(FacebookProvider) {
 	FacebookProvider.init('854282147947366');
 });
