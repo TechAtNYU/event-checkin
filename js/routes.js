@@ -9,9 +9,14 @@ angular.module('app')
 			templateUrl: 'partials/events.html',
 			controller: 'MainCtrl'
 		})
-		.state('checkin', {
-			url: '/checkin/:id/:config?',
-			templateUrl: 'partials/checkin.html',
+		.state('event', {
+			url: '/:id/:config',
+			templateUrl: 'partials/event.html',
 			controller: 'EventCtrl'
+		})
+		.state('checkin', {
+			url: '/:id/:config/checkin',
+			templateUrl: 'partials/checkin.html',
+			controller: 'CheckinCtrl'
 		});
 });
