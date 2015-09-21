@@ -18,7 +18,8 @@ angular
 
 	$scope.signOutExternalService = function() {
 		var eventUrl = [window.location.protocol, '//', window.location.host,
-						'#', '?shared=true'].join('');
+			window.location.pathname.toString().replace('thanks', 'show')]
+			.join('');
 		var url = 'https://api.tnyu.org/v2/auth/facebook/logOut?doExternalServiceLogout=true&success=' +
 			encodeURIComponent(eventUrl);
 		window.location = url;
