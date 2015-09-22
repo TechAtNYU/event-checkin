@@ -1,12 +1,6 @@
 <div cg-busy="{promise: loadingPromise, templateUrl:'partials/loadingtemplate.html'}">
     <div ng-if="events">
         <section id="events">
-            <div ng-if="events.length == 0">
-                <h2>Hold your horses.</h2>
-                <p>We know tech@nyu events are exciting but, unfortunately, our next one
-                isn't for at least a couple hours. You're just going to have to be patient.
-                In the mean time, check out our full <a href="http://techatnyu.org/#event-calendar">events calendar</a>.</p>
-            </div>
             <div ng-if="events.length == 1">
                 <h2>{{events[0].attributes.title}}</h2>
                 <p>{{events[0].attributes.description}}</p>
@@ -19,5 +13,11 @@
                 </tr>
             </table>
         </section>
+    </div>
+    <div ng-if="events && events.length == 0">
+        <h2>Hold your horses.</h2>
+        <p>We know tech@nyu events are exciting but, unfortunately, our next one
+        isn't for at least a couple hours. You're just going to have to be patient.
+        In the mean time, check out our full <a href="http://techatnyu.org/#event-calendar">events calendar</a>.</p>
     </div>
 </div>
