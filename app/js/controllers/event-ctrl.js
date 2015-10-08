@@ -43,9 +43,30 @@ angular
 	}
 
     function rsvp_person(selected) {
-        console.log(selected.value);
-        $scope.dirty.selected_tag = undefined;
-        $scope.dirty = {};
+        // Add to checkin
+        var eventData = {};
+        eventData['type'] = 'events';
+        eventData['id'] = $stateParams.id;
+        eventData['links'] = {};
+        eventData['links']['attendees'] = {};
+
+        Restangular.one('events/' + $stateParams.id)
+        .get()
+        .then(function(data) {
+            if (data && data.links && data.links.attendees && data.links.attendees.linkage) {
+                var currentAttendees = data && data.links && data.links.attendees && data.links.attendees.linkage;
+                currentAttendees.push({"id": selected.value, "type": "people"});
+                eventData['links']['attendees']['linkage'] = currentAttendees;
+                console.log(eventData);
+                Restangular.one('events/' + $stateParams.id)
+                .patch(eventData)
+                .then(function(){
+                    // Clear
+                    $scope.dirty.selected_tag = undefined;
+                    $scope.dirty = {};
+                });
+            }
+        });
     }
 
 	$scope.autocomplete_options = {
