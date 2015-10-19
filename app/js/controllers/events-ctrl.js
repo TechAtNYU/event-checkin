@@ -10,8 +10,12 @@ angular
             if (data &&data.attributes && data.attributes.roles && data.attributes.roles.length > 0) {
                 $scope.isTeamMember = true;
             }
+        })
+        .catch(function(error){
+            console.log(error);
+            $scope.isTeamMember = false;
         });
-	$scope.loadingPromise = Restangular.one('events/next-10-publicly?page[limit]=10&sort=%2bstartDateTime')
+	$scope.loadingPromise = Restangular.one('events/public-check-in-eligible?page[limit]=10&sort=%2bstartDateTime')
 		.get()
 		.then(function(data) {
 			$scope.events = data;
