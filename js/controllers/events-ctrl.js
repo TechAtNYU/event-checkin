@@ -11,7 +11,7 @@ angular
                 $scope.isTeamMember = true;
             }
         });
-	$scope.loadingPromise = Restangular.one('events/public-check-in-eligible?page[limit]=10&sort=%2bstartDateTime')
+	$scope.loadingPromise = Restangular.one('events/next-10-publicly?page[limit]=10&sort=%2bstartDateTime')
 		.get()
 		.then(function(data) {
 			$scope.events = data;
