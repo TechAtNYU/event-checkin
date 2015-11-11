@@ -8,38 +8,41 @@ angular
     $scope.idToPerson = {};
     var allPeople = [];
 
-	$scope.loadingPromise = Restangular.one('events/' + $stateParams.id)
+    $scope.loadingPromise = Restangular.one('events/' + $stateParams.id)
 		.get()
 		.then(function(data) {
-			$scope.events = data;
+            $scope.events = data;
             var rsvpIds = {};
             var rsvpsData = data && data.links && data.links.rsvps && data.links.rsvps.linkage;
-            for (var i = rsvpsData.length - 1; i >= 0; i--) {
-                rsvpIds[rsvpsData[i].id] = true;
-            };
+            _(rsvpsData).forEach(function (val) {
+                rsvpIds[val.id] = true;
+            }).value();
+
+            // Converting Ids to names for typeahead.
             Restangular.one('people')
             .get()
             .then(function(data) {
                 $scope.peopleData = data;
-                for (var i = data.length - 1; i >= 0; i--) {
-                    if (rsvpIds[data[i].id] === true){
-                        allPeople.push(data[i].id);
-                        $scope.idToPerson[data[i].id] = data[i].attributes.name;
+                _(data).forEach(function (val) {
+                    if (rsvpIds[val.id] === true){
+                        allPeople.push(val.id);
+                        $scope.idToPerson[val.id] = val.attributes.name;
                     }
-                };
+                }).value();
             });
 		});
 
 	function suggest_state(term) {
 		var q = term.toLowerCase().trim();
 		var results = [];
-		for (var i = 0; i < allPeople.length && results.length < 10; i++) {
-            var value = allPeople[i];
-            var state = $scope.idToPerson[value];
-			if (state.toLowerCase().indexOf(q) === 0)
-				results.push({ label: state, value: value });
-		}
-		return results;
+        _(allPeople).forEach(function (val) {
+            if (results.length > 10)
+                return results;
+            var state = $scope.idToPerson[val];
+            if (state.toLowerCase().indexOf(q) === 0)
+                results.push({ label: state, value: val });
+        }).value();
+        return results;
 	}
 
     function rsvp_person(selected) {
@@ -55,9 +58,11 @@ angular
         .then(function(data) {
             if (data && data.links && data.links.attendees && data.links.attendees.linkage) {
                 var currentAttendees = data && data.links && data.links.attendees && data.links.attendees.linkage;
-                currentAttendees.push({"id": selected.value, "type": "people"});
+                currentAttendees.push({
+                    "id": selected.value,
+                    "type": "people"
+                });
                 eventData['links']['attendees']['linkage'] = currentAttendees;
-                console.log(eventData);
                 Restangular.one('events/' + $stateParams.id)
                 .patch(eventData)
                 .then(function(){

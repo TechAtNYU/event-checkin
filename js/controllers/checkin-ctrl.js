@@ -3,7 +3,7 @@
 angular
 .module('app.controllers')
 .controller('CheckinCtrl', function($scope, $location, $stateParams, Restangular) {
-
+    
     $scope.signIn = function() {
         var url = 'https://api.tnyu.org/v2/auth/facebook?success=' +
             window.encodeURIComponent($location.absUrl());
