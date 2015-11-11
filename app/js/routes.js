@@ -4,7 +4,7 @@ angular.module('app')
 .config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	$stateProvider
-		.state('index', {
+	.state('index', {
 			url: '/',
 			templateUrl: 'partials/events.html',
 			controller: 'MainCtrl'
