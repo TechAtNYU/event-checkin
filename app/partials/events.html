@@ -5,15 +5,15 @@
                 <h2>{{events[0].attributes.title}}</h2>
                 <p>{{events[0].attributes.description}}</p>
                 <a ng-if="isTeamMember == true" role="button" class="button flatButton" ui-sref="event({id: events[0].id, config: {{shared}} })">Sign people in</a>
-                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: {{shared}} })">Private computer</a>
-                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: false })">Shared computer</a>
+                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: false })">Private computer</a>
+                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: true })">Shared computer</a>
             </div>
             <table ng-if="events.length > 1">
                 <tr ng-repeat="event in events">
                     <th style="padding-right: 10px;">{{event.attributes.title}}</th>
                     <td><a ng-if="isTeamMember == true" role="button" class="button flatButton" ui-sref="event({id: event.id, config: {{shared}} })">Sign people in</a></td>
-                    <td><a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: event.id, config: {{shared}} })">Private computer</a></td>
-                    <td><a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: event.id, config: false})">Shared computer</a></td>
+                    <td><a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: event.id, config: false })">Private computer</a></td>
+                    <td><a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: event.id, config: true })">Shared computer</a></td>
                 </tr>
             </table>
         </section>
