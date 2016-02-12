@@ -5,7 +5,7 @@ angular
 .controller('CheckinCtrl', function($scope, $location, $stateParams, Restangular) {
 	
 	$scope.signIn = function() {
-		var url = 'https://api.tnyu.org/v2/auth/facebook?success=' +
+		var url = 'https://api.tnyu.org/v3/auth/facebook?success=' +
 			window.encodeURIComponent($location.absUrl());
 		window.location = url;
 	};
@@ -14,7 +14,7 @@ angular
 		var eventUrl = [window.location.protocol, '//', window.location.host,
 			window.location.pathname.toString().replace('thanks', 'show')]
 			.join('');
-		var url = 'https://api.tnyu.org/v2/auth/facebook/logOut?doExternalServiceLogout=true&success=' +
+		var url = 'https://api.tnyu.org/v3/auth/facebook/logOut?doExternalServiceLogout=true&success=' +
 			encodeURIComponent(eventUrl);
 		window.location = url;
 	};

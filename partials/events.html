@@ -4,9 +4,10 @@
             <div ng-if="events.length == 1">
                 <h2>{{events[0].attributes.title}}</h2>
                 <p>{{events[0].attributes.description}}</p>
-                <a ng-if="isTeamMember == true" role="button" class="button flatButton" ui-sref="event({id: events[0].id, config: {{shared}} })">Sign people in</a>
-                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: false })">Private computer</a>
-                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: true })">Shared computer</a>
+                <a ng-if="isTeamMember == true" role="button" class="button flatButton" ui-sref="event({id: events[0].id, config: {{shared}} })">Sign people in without card reader</a>
+                <a ng-if="isTeamMember == true" role="button" class="button flatButton" ui-sref="entry({id: events[0].id, config: {{shared}} })">Sign people in with card reader</a>
+                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ui-sref="checkin({id: events[0].id, config: false })">Sign Me In</a>
+                <a ng-if="isTeamMember == false" role="button" class="button flatButton" ng-click="signIn()">I'm a Team member</a>
             </div>
             <table ng-if="events.length > 1">
                 <tr ng-repeat="event in events">
