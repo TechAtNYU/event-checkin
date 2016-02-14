@@ -5,7 +5,7 @@ angular
 .controller('EventsCtrl', function($scope, Restangular) {
 	$scope.isTeamMember = false;
 	$scope.signIn = function() {
-		var url = 'https://api.tnyu.org/v2/auth/facebook?success=' +
+		var url = 'https://api.tnyu.org/v3/auth/facebook?success=' +
 			window.encodeURIComponent($location.absUrl());
 		window.location = url;
 	};
