@@ -45,7 +45,7 @@ angular
 			$scope.person.attributes.name = $scope.dirty.name
 			createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
 				$scope.person = data[0];
-				rsvp_person($scope.person.id);
+				rsvpPerson($scope.person.id);
 			});
 		});
 	}
@@ -58,10 +58,10 @@ angular
 				$scope.person = data[0]
 				var p;
 				if ($scope.person.attributes.nNumber != $scope.dirty.Number) {
-					p = update_person($scope.dirty.nNumber)
+					p = updatePerson($scope.dirty.nNumber)
 				}
 				$q.when(p, function() {
-					rsvp_person($scope.person.id);
+					rsvpPerson($scope.person.id);
 				});
 			}
 			else {
@@ -70,7 +70,7 @@ angular
 		});
 	}
 
-	function rsvp_person(id) {
+	function rsvpPerson(id) {
 		// Add to checkin
 		var eventData = [];
 		// Adds the person as an attendee relationship to the event
@@ -89,7 +89,7 @@ angular
 	}
 
 	//updates the person's nNumber record
-	function update_person(number) {
+	function updatePerson(number) {
 		var personData = {
 			type: "people",
 			id: $scope.person.id,
@@ -140,7 +140,7 @@ angular
 	});
 
 	//autocomplete suggestions
-	function suggest_state(term) {
+	function suggestState(term) {
 		if (term.indexOf(' ') === -1) {
 			return [];
 		}
@@ -157,10 +157,10 @@ angular
 	}
 
 	$scope.autocomplete_options = {
-		suggest: suggest_state,
+		suggest: suggestState,
 		on_select: function(selected) {
 			$scope.person.attributes.name = selected.label;
-			rsvp_person(selected.value);
+			rsvpPerson(selected.value);
 		}
 	};
 
