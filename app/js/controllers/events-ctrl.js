@@ -4,6 +4,11 @@ angular
 .module('app.controllers')
 .controller('EventsCtrl', function($scope, Restangular) {
 	$scope.isTeamMember = false;
+	$scope.signIn = function() {
+		var url = 'https://api.tnyu.org/v2/auth/facebook?success=' +
+			window.encodeURIComponent($location.absUrl());
+		window.location = url;
+	};
 	Restangular.one('people/me')
 		.get()
 		.then(function(data) {

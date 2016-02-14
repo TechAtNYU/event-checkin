@@ -20,7 +20,7 @@ angular.module('app')
 			controller: 'CheckinCtrl'
 		})
 		.state('entry', {
-			url: '/:id/:config',
+			url: '/entry/:id/:config',
 			templateUrl: 'partials/entry.html',
 			controller: 'EntryCtrl'
 		});
