@@ -18,5 +18,10 @@ angular.module('app')
 			url: '/:id/:config/checkin',
 			templateUrl: 'partials/checkin.html',
 			controller: 'CheckinCtrl'
+		})
+		.state('entry', {
+			url: '/entry/:id/:config',
+			templateUrl: 'partials/entry.html',
+			controller: 'EntryCtrl'
 		});
 });

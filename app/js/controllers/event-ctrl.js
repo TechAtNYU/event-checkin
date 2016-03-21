@@ -13,7 +13,7 @@ angular
 	.then(function(data) {
 		$scope.events = data;
 		var rsvpIds = {};
-		var rsvpsData = data && data.links && data.links.rsvps && data.links.rsvps.linkage;
+		var rsvpsData = data && data.relationships && data.relationships.rsvps && data.relationships.rsvps.data;
 		_(rsvpsData).forEach(function (val) {
 			rsvpIds[val.id] = true;
 		}).value();
@@ -56,8 +56,8 @@ angular
 		Restangular.one('events/' + $stateParams.id)
 		.get()
 		.then(function(data) {
-			if (data && data.links && data.links.attendees && data.links.attendees.linkage) {
-				var currentAttendees = data && data.links && data.links.attendees && data.links.attendees.linkage;
+			if (data && data.relationships && data.relationships.attendees && data.relationships.attendees.data) {
+				var currentAttendees = data && data.relationships && data.relationships.attendees && data.relationships.attendees.data;
 				currentAttendees.push({
 					"id": selected.value,
 					"type": "people"
