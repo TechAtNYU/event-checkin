@@ -2,7 +2,7 @@
 
 angular
 .module('app.controllers')
-.controller('EventsCtrl', function($scope, Restangular) {
+.controller('EventsCtrl', function($scope, Restangular, $location) {
 	$scope.isTeamMember = false;
 	$scope.signIn = function() {
 		var url = 'https://api.tnyu.org/v3/auth/facebook?success=' +

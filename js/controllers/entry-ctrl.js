@@ -32,6 +32,10 @@ angular
 		});
 	}
 
+	$scope.notAStudent = function() {
+		$scope.needName = true;
+	}
+
 	$scope.findPersonName = function(name) {
 		$scope.dirty.name = name;
 		personExists('people?filter[simple][name]=' + name, function() {
@@ -93,10 +97,13 @@ angular
 		var personData = {
 			type: "people",
 			id: $scope.person.id,
-			attributes: {
-				nNumber: number
-			}
+			attributes: {}
 		}
+
+		if (number !== "") {
+			personData.attributes.nNumber = number;
+		}
+
 		return Restangular.one('people/' + $scope.person.id)
 		.patch(personData);
 	}
@@ -106,9 +113,11 @@ angular
 			type: "people",
 			attributes: {
 				name: name,
-				"contact.email": email,
-				nNumber: number
+				"contact.email": email
 			}
+		}
+		if (number !== "") {
+			person.attributes.nNumber = number;
 		}
 		return Restangular.all('people')
 		.post(person)
