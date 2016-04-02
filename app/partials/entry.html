@@ -5,6 +5,8 @@
         <form name="idNumber" ng-submit="findPersonNumber(dirty.nNumber)">
         	<input class="button flatButton" type="text" placeholder="Swipe your id" ng-model="dirty.nNumber" ng-disabled="person.attributes.name || needName" autofocus />
         </form>
+        <br>
+        <p ng-click="notAStudent()" role="button" class="button flatButton">Not a student</a>
     </div>
     <div ng-if="needName">
     	<h2>Welcome! Can I have your name?</h2>
