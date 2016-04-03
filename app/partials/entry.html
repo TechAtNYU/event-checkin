@@ -1,14 +1,19 @@
 <div cg-busy="{promise: loadingPromise, templateUrl: 'partials/loadingtemplate.html'}">
-        <div ng-if="events">
-            <h2>{{events.attributes.title}}</h2>
-            <p>{{events.attributes.description}}</p>
+    <div ng-if="events">
+        <h2>{{events.attributes.title}}</h2>
+        <p>{{events.attributes.description}}</p>
+        <div ng-if="needId">
             <form name="idNumber" ng-submit="findPersonNumber(dirty.nNumber)">
             	<input class="button flatButton" type="text" placeholder="Swipe your id" ng-model="dirty.nNumber" ng-disabled="person.attributes.name || needName" autofocus />
                 <p ng-if="nFailValidation"> Something is wrong with the id number entered</p>
             </form>
             <br>
-            <p ng-click="notAStudent()" role="button" class="button flatButton">Not an NYU Student?</a>
         </div>
+        <p ng-click="notAStudent()" role="button" class="button flatButton">
+            <span ng-show="nyuStudent">Not an NYU Student?</span>
+            <span ng-hide="nyuStudent">NYU Student?</span>
+        </p>
+    
         <div ng-if="needName">
         	<h2>Welcome! Can I have your name?</h2>
         	<div mass-autocomplete>
@@ -30,4 +35,5 @@
         	<p ng-show="rsvpd">You have been successfully signed in!</p>
         	<p ng-hide="rsvpd">Checking you in now...</p>
         </div>
+    </div>
 </div>

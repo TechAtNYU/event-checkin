@@ -14,10 +14,13 @@ angular
 	$scope.dirty.nNumber = ""
 	$scope.dirty.name = ""
 	$scope.person = {attributes:{}};
+
+	$scope.nyuStudent = true;
 	
 
 	//booleans for opening up new parts of the form
 	$scope.rsvpd = false;
+	$scope.needId = true;
 	$scope.needName = false;
 	$scope.needEmail = false;
 	$scope.allEntered = false;
@@ -56,8 +59,17 @@ angular
 		});
 	}
 
-	$scope.notAStudent = function() {
-		$scope.needName = true;
+	$scope.notAStudent = function() { 
+		$scope.dirty.nNumber = ""
+		$scope.nyuStudent = !$scope.nyuStudent;
+		if ($scope.nyuStudent) {
+			$scope.needId = true;
+			$scope.needName = false;
+		}
+		else {
+			$scope.needId = false;
+			$scope.needName = true;
+		}
 	}
 
 	$scope.findPersonName = function(name) {
