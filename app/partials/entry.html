@@ -21,6 +21,7 @@
     	<form name="email" ng-submit="findPersonEmail(dirty.email)">
         	<input id="emailField" class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
         </form>
+        <p ng-if="readyForNew" ng-click="submission()" role="button" class="button flatButton">Submit</p>
     </div>
     <div ng-if="person.attributes.name">
     	<h2>Hello {{person.attributes.name}}!</h2>

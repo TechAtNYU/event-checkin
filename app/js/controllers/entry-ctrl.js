@@ -20,6 +20,7 @@ angular
 		$scope.person = {attributes:{}};
 
 		$scope.canReset = false;
+		$scope.readyForNew = false;
 
 		//booleans for opening up new parts of the form
 		$scope.rsvpd = false;
@@ -63,11 +64,16 @@ angular
 	$scope.findPersonEmail = function(email) {
 		$scope.allEntered = true;
 		personExists('people?filter[simple][contact.email]=' + email, function() {
-			$scope.person.attributes.name = $scope.dirty.name
-			createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
-				$scope.person = data[0];
-				rsvpPerson($scope.person.id);
-			});
+			$scope.readyForNew = true;
+			$scope.allEntered = false;
+		});
+	}
+
+	$scope.submission = function() {
+		$scope.person.attributes.name = $scope.dirty.name;
+		createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
+			$scope.person = data[0];
+			rsvpPerson($scope.person.id);
 		});
 	}
 
