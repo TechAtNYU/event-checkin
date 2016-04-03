@@ -22,11 +22,35 @@ angular
 	$scope.needEmail = false;
 	$scope.allEntered = false;
 
+	$scope.nFailValidation = false;
+	$scope.nameFailValidation = false;
+
+	$scope.validateNNumber = function(number) {
+		var re = /N[0-9]{8}$/;
+		return re.test(number);
+	}
+
+	$scope.validateFullName = function(name) {
+		var re = /[A-Z][a-z]*\s[A-Z][a-z]*/;
+		return re.test(name);	
+	}
+
 	$scope.findPersonNumber = function(number) {
+		$scope.nFailValidation = false;
 		if (number.indexOf('=') > -1) {
 			number = 'N' + number.substring(2, number.indexOf('='));
 		}
+		else if (number.indexOf('N') < 0) {
+			number = 'N' + number;
+		}
+
 		$scope.dirty.nNumber = number
+
+		if (!$scope.validateNNumber(number)) {
+			$scope.nFailValidation = true;
+			return;
+		}
+
 		personExists('people?filter[simple][nNumber]=' + number, function() {
 			$scope.needName = true;
 		});
@@ -37,7 +61,12 @@ angular
 	}
 
 	$scope.findPersonName = function(name) {
+		$scope.nameFailValidation = false;
 		$scope.dirty.name = name;
+		if (!$scope.validateFullName(name)) {
+			$scope.nameFailValidation = true;
+			return;
+		}
 		personExists('people?filter[simple][name]=' + name, function() {
 			$scope.needEmail = true;
 		});
