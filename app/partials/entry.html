@@ -1,25 +1,25 @@
 <div cg-busy="{promise: loadingPromise, templateUrl: 'partials/loadingtemplate.html'}">
     <div ng-if="events">
         <h2>{{events.attributes.title}}</h2>
-        <p>{{events.attributes.description}}</p>
+        <p><span>{{events.attributes.description}}</span><span ng-if="canReset" ng-click="resetFields()" role="button" class="button flatButton">Reset</span></p>
         <form name="idNumber" ng-submit="findPersonNumber(dirty.nNumber)">
-        	<input class="button flatButton" type="text" placeholder="Swipe your id" ng-model="dirty.nNumber" ng-disabled="person.attributes.name || needName" autofocus />
+        	<input id="idField" class="button flatButton" type="text" placeholder="Swipe your id" ng-model="dirty.nNumber" ng-disabled="person.attributes.name || needName" autofocus />
         </form>
         <br>
-        <p ng-click="notAStudent()" role="button" class="button flatButton">Not a student</a>
+        <p ng-click="notAStudent()" role="button" class="button flatButton">Not a student</p>
     </div>
     <div ng-if="needName">
     	<h2>Welcome! Can I have your name?</h2>
     	<div mass-autocomplete>
     		<form name="name" ng-submit="findPersonName(dirty.value)">
-            	<input class="button flatButton" placeholder="Enter your name" ng-model="dirty.value" mass-autocomplete-item="autocomplete_options" ng-disabled="person.attributes.name || needEmail" />
+            	<input id="nameField" class="button flatButton" placeholder="Enter your name" ng-model="dirty.value" mass-autocomplete-item="autocomplete_options" ng-disabled="person.attributes.name || needEmail" />
             </form>
         </div>
     </div>
     <div ng-if="needEmail">
     	<h2>...and your email?</h2>
     	<form name="email" ng-submit="findPersonEmail(dirty.email)">
-        	<input class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
+        	<input id="emailField" class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
         </form>
     </div>
     <div ng-if="person.attributes.name">

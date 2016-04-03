@@ -4,24 +4,32 @@ angular
 .module('app.controllers')
 .controller('EntryCtrl', function($scope, $stateParams, $sce, $q, Restangular, $timeout) {
 
-	//used when loading typeahead
-	$scope.shared = $stateParams.config;
-	$scope.dirty = {};
-	$scope.idToPerson = {};
 	var allPeople = [];
 
-	// stored data to use throughout form
-	$scope.dirty.nNumber = ""
-	$scope.dirty.name = ""
-	$scope.person = {attributes:{}};
+	function init() {
+		//used when loading typeahead
+		$scope.shared = $stateParams.config;
+		$scope.dirty = {};
+		$scope.idToPerson = {};
+		allPeople = [];
+
+		// stored data to use throughout form
+		$scope.dirty.nNumber = ""
+		$scope.dirty.name = ""
+		$scope.dirty.email = ""
+		$scope.person = {attributes:{}};
+
+		$scope.canReset = false;
+
+		//booleans for opening up new parts of the form
+		$scope.rsvpd = false;
+		$scope.needName = false;
+		$scope.needEmail = false;
+		$scope.allEntered = false;
+	}
+
+	init();
 	
-
-	//booleans for opening up new parts of the form
-	$scope.rsvpd = false;
-	$scope.needName = false;
-	$scope.needEmail = false;
-	$scope.allEntered = false;
-
 	$scope.findPersonNumber = function(number) {
 		if (number.indexOf('=') > -1) {
 			number = 'N' + number.substring(2, number.indexOf('='));
@@ -29,17 +37,26 @@ angular
 		$scope.dirty.nNumber = number
 		personExists('people?filter[simple][nNumber]=' + number, function() {
 			$scope.needName = true;
+			$scope.canReset = true;
+			$timeout(()=>{
+				angular.element('#nameField').focus();
+			}, 1);
 		});
 	}
 
 	$scope.notAStudent = function() {
 		$scope.needName = true;
+		$scope.canReset = true;
 	}
 
 	$scope.findPersonName = function(name) {
 		$scope.dirty.name = name;
 		personExists('people?filter[simple][name]=' + name, function() {
 			$scope.needEmail = true;
+			$timeout(()=>{
+				angular.element('#emailField').focus();
+			}, 1);
+
 		});
 	}
 
@@ -52,6 +69,13 @@ angular
 				rsvpPerson($scope.person.id);
 			});
 		});
+	}
+
+	$scope.resetFields = function() {
+		init();
+		$timeout(()=>{
+			angular.element('#idField').focus();
+		}, 1);
 	}
 
 	function personExists(url, elseCallback) {
@@ -91,6 +115,8 @@ angular
 			}
 		});
 	}
+
+	
 
 	//updates the person's nNumber record
 	function updatePerson(number) {
