@@ -44,7 +44,6 @@
 
     <!-- Angular Controllers -->
     <script src="/js/controllers/events-ctrl.js"></script>
-    <script src="/js/controllers/event-ctrl.js"></script>
     <script src="/js/controllers/checkin-ctrl.js"></script>
     <script src="/js/controllers/main-ctrl.js"></script>
     <script src="/js/controllers/entry-ctrl.js"></script>
@@ -53,7 +52,7 @@
 <body ng-app="app" ng-controller="EventsCtrl">
     <div class="container">
         <header>
-            <h1>Tech@NYU Event Check In</h1>
+            <h1><a ui-sref="index()">Tech@NYU Event Check In</a></h1>
         </header>
         <div ui-view></div>
     </div>
