@@ -27,6 +27,7 @@ angular
 
 	$scope.nFailValidation = false;
 	$scope.nameFailValidation = false;
+	$scope.emailFailValidation = false;
 
 	$scope.validateNNumber = function(number) {
 		var re = /N[0-9]{8}$/;
@@ -36,6 +37,11 @@ angular
 	$scope.validateFullName = function(name) {
 		var re = /[A-Z][a-z]*\s[A-Z][a-z]*/;
 		return re.test(name);	
+	}
+
+	$scope.validateEmail = function(email) {
+		var re = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+		return re.test(email);
 	}
 
 	$scope.findPersonNumber = function(number) {
@@ -85,7 +91,15 @@ angular
 	}
 
 	$scope.findPersonEmail = function(email) {
+		$scope.emailFailValidation = false;
+
+		if (!$scope.validateEmail(email)) {
+			$scope.emailFailValidation = true;
+			return;
+		}
+
 		$scope.allEntered = true;
+
 		personExists('people?filter[simple][contact.email]=' + email, function() {
 			$scope.person.attributes.name = $scope.dirty.name
 			createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
