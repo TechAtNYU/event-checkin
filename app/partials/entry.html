@@ -19,10 +19,10 @@
     <div ng-if="needEmail">
     	<h2>...and your email?</h2>
     	<form name="email" ng-submit="findPersonEmail(dirty.email)">
-        	<input class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
+        	<input class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="allEntered" />
         </form>
     </div>
-    <div ng-if="person.attributes.name">
+    <div ng-if="checking && person.attributes.name">
     	<h2>Hello {{person.attributes.name}}!</h2>
     	<p ng-show="rsvpd">You have been successfully signed in!</p>
     	<p ng-hide="rsvpd">Checking you in now...</p>
