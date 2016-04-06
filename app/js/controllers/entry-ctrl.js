@@ -14,37 +14,92 @@ angular
 	$scope.dirty.nNumber = ""
 	$scope.dirty.name = ""
 	$scope.person = {attributes:{}};
+
+	$scope.nyuStudent = true;
 	
 
 	//booleans for opening up new parts of the form
 	$scope.rsvpd = false;
+	$scope.needId = true;
 	$scope.needName = false;
 	$scope.needEmail = false;
 	$scope.allEntered = false;
 
+	$scope.nFailValidation = false;
+	$scope.nameFailValidation = false;
+	$scope.emailFailValidation = false;
+
+	$scope.validateNNumber = function(number) {
+		var re = /N[0-9]{8}$/;
+		return re.test(number);
+	}
+
+	$scope.validateFullName = function(name) {
+		var re = /[A-Z][a-z]*\s[A-Z][a-z]*/;
+		return re.test(name);	
+	}
+
+	$scope.validateEmail = function(email) {
+		var re = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+		return re.test(email);
+	}
+
 	$scope.findPersonNumber = function(number) {
+		$scope.nFailValidation = false;
 		if (number.indexOf('=') > -1) {
 			number = 'N' + number.substring(2, number.indexOf('='));
 		}
+		else if (number.indexOf('N') < 0) {
+			number = 'N' + number;
+		}
+
 		$scope.dirty.nNumber = number
+
+		if (!$scope.validateNNumber(number)) {
+			$scope.nFailValidation = true;
+			return;
+		}
+
 		personExists('people?filter[simple][nNumber]=' + number, function() {
 			$scope.needName = true;
 		});
 	}
 
-	$scope.notAStudent = function() {
-		$scope.needName = true;
+	$scope.notAStudent = function() { 
+		$scope.dirty.nNumber = ""
+		$scope.nyuStudent = !$scope.nyuStudent;
+		if ($scope.nyuStudent) {
+			$scope.needId = true;
+			$scope.needName = false;
+		}
+		else {
+			$scope.needId = false;
+			$scope.needName = true;
+		}
 	}
 
 	$scope.findPersonName = function(name) {
+		$scope.nameFailValidation = false;
 		$scope.dirty.name = name;
+		if (!$scope.validateFullName(name)) {
+			$scope.nameFailValidation = true;
+			return;
+		}
 		personExists('people?filter[simple][name]=' + name, function() {
 			$scope.needEmail = true;
 		});
 	}
 
 	$scope.findPersonEmail = function(email) {
+		$scope.emailFailValidation = false;
+
+		if (!$scope.validateEmail(email)) {
+			$scope.emailFailValidation = true;
+			return;
+		}
+
 		$scope.allEntered = true;
+
 		personExists('people?filter[simple][contact.email]=' + email, function() {
 			$scope.person.attributes.name = $scope.dirty.name
 			createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
