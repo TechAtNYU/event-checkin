@@ -61,7 +61,8 @@ angular
 			if (data.length > 0) {
 				$scope.person = data[0]
 				var p;
-				if ($scope.person.attributes.nNumber != $scope.dirty.Number) {
+				if ($scope.person.attributes.nNumber != $scope.dirty.nNumber) {
+					console.log("updating nNumber");
 					p = updatePerson($scope.dirty.nNumber)
 				}
 				$q.when(p, function() {
