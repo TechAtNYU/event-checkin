@@ -22,6 +22,8 @@ angular
 	$scope.needEmail = false;
 	$scope.allEntered = false;
 
+	$scope.checking = false;
+
 	$scope.findPersonNumber = function(number) {
 		if (number.indexOf('=') > -1) {
 			number = 'N' + number.substring(2, number.indexOf('='));
@@ -45,9 +47,14 @@ angular
 
 	$scope.findPersonEmail = function(email) {
 		$scope.allEntered = true;
+		if ($scope.person.attributes.name) {
+			updatePerson(null, email, checkEmail);
+			return;
+		}
 		personExists('people?filter[simple][contact.email]=' + email, function() {
 			$scope.person.attributes.name = $scope.dirty.name
 			createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
+				$scope.checking = true;
 				$scope.person = data[0];
 				rsvpPerson($scope.person.id);
 			});
@@ -58,20 +65,38 @@ angular
 		Restangular.one(url)
 		.get()
 		.then(function(data) {
+			var person;
 			if (data.length > 0) {
-				$scope.person = data[0]
+				person = data[0];
+			}
+			if (data.attributes) {
+				person = data;
+			}
+
+			if (person) {
+				$scope.person = person
 				var p;
-				if ($scope.person.attributes.nNumber != $scope.dirty.Number) {
-					p = updatePerson($scope.dirty.nNumber)
+				if ($scope.dirty.nNumber && $scope.person.attributes.nNumber != $scope.dirty.nNumber) {
+					p = updatePerson($scope.dirty.nNumber, "", checkEmail);
 				}
-				$q.when(p, function() {
-					rsvpPerson($scope.person.id);
-				});
+				else {
+					checkEmail($scope.person);
+				}
 			}
 			else {
 				elseCallback()
 			}
 		});
+	}
+
+	function checkEmail(person) {
+		if (person.attributes.contact && person.attributes.contact.email && person.attributes.contact.email !== '') {
+			$scope.checking = true;
+			rsvpPerson(person.id)
+		}
+		else {
+			$scope.needEmail = true;
+		}
 	}
 
 	function rsvpPerson(id) {
@@ -93,11 +118,18 @@ angular
 	}
 
 	//updates the person's nNumber record
-	function updatePerson(number) {
+	function updatePerson(number, email, callback) {
 		var personData = {
 			type: "people",
 			id: $scope.person.id,
-			attributes: {}
+			attributes: {
+			}
+		}
+
+		if (email !== "") {
+			personData.attributes = {
+				'contact.email':email
+			};
 		}
 
 		if (number !== "") {
@@ -105,7 +137,10 @@ angular
 		}
 
 		return Restangular.one('people/' + $scope.person.id)
-		.patch(personData);
+		.patch(personData)
+		.then(function(data) {
+			callback(data);
+		});
 	}
 
 	function createAccount(name, email, number) {
@@ -169,7 +204,8 @@ angular
 		suggest: suggestState,
 		on_select: function(selected) {
 			$scope.person.attributes.name = selected.label;
-			rsvpPerson(selected.value);
+			$scope.dirty.value = selected.label;
+			personExists('people/' + selected.value);
 		}
 	};
 
