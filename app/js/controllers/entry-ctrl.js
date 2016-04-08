@@ -6,38 +6,13 @@ angular
 
 	var allPeople = [];
 
-	function init() {
-		//used when loading typeahead
-		$scope.shared = $stateParams.config;
-		$scope.dirty = {};
-		$scope.idToPerson = {};
-		allPeople = [];
+	//used when loading typeahead
+	$scope.shared = $stateParams.config;
+	$scope.idToPerson = {};
 
-		// stored data to use throughout form
-		$scope.dirty.nNumber = ""
-		$scope.dirty.name = ""
-		$scope.dirty.email = ""
-		$scope.person = {attributes:{}};
+	$scope.rsvps;
 
-		$scope.canReset = false;
-		$scope.readyForNew = false;
-
-		$scope.nyuStudent = true;
-
-		//booleans for opening up new parts of the form
-		$scope.rsvpd = false;
-		$scope.needId = true;
-		$scope.needName = false;
-		$scope.needEmail = false;
-		$scope.allEntered = false;
-
-		$scope.nFailValidation = false;
-		$scope.nameFailValidation = false;
-		$scope.emailFailValidation = false;
-
-	}
-
-	init();
+	reset();
 	
 	$scope.validateNNumber = function(number) {
 		var re = /N[0-9]{8}$/;
@@ -101,6 +76,7 @@ angular
 		}
 		personExists('people?filter[simple][name]=' + name, function() {
 			$scope.needEmail = true;
+			$scope.canReset = true;
 			$timeout(()=>{
 				angular.element('#emailField').focus();
 			}, 1);
@@ -128,12 +104,13 @@ angular
 		$scope.person.attributes.name = $scope.dirty.name;
 		createAccount($scope.dirty.name, $scope.dirty.email, $scope.dirty.nNumber).then(function(data) {
 			$scope.person = data[0];
-			rsvpPerson($scope.person.id);
+			$scope.alerts.push('New Account created');
+				checkAndRsvp($scope.person.id);
 		});
 	}
 
 	$scope.resetFields = function() {
-		init();
+		reset();
 		$timeout(()=>{
 			angular.element('#idField').focus();
 		}, 1);
@@ -147,11 +124,10 @@ angular
 				$scope.person = data[0]
 				var p;
 				if ($scope.person.attributes.nNumber != $scope.dirty.nNumber) {
-					console.log("updating nNumber");
 					p = updatePerson($scope.dirty.nNumber)
 				}
 				$q.when(p, function() {
-					rsvpPerson($scope.person.id);
+					checkAndRsvp($scope.person.id);
 				});
 			}
 			else {
@@ -160,7 +136,21 @@ angular
 		});
 	}
 
-	function rsvpPerson(id) {
+	function checkAndRsvp(id) {
+		if($scope.rsvps[id]) {
+			checkinPerson(id);
+		}
+		else {
+			$scope.alerts.push('Person has not RSVPd, override or reset');
+			$scope.needsRsvpOverride = true;
+		}
+	}
+
+	$scope.override = function () {
+		checkinPerson($scope.person.id);
+	}
+
+	function checkinPerson(id) {
 		// Add to checkin
 		var eventData = [];
 		// Adds the person as an attendee relationship to the event
@@ -171,7 +161,7 @@ angular
 				Restangular.all('events/' + $stateParams.id + '/relationships/attendees')
 				.post({id: id.toString(), type:'people'} )
 				.then(function(post){
-					$scope.rsvpd = true;
+					$scope.checkedIn = true;
 					resetTimeout();
 				});
 			}
@@ -222,6 +212,8 @@ angular
 			rsvpIds[val.id] = true;
 		}).value();
 
+		$scope.rsvps = rsvpIds;
+
 		// Converting Ids to names for typeahead.
 		Restangular.one('people')
 		.get()
@@ -257,20 +249,53 @@ angular
 		suggest: suggestState,
 		on_select: function(selected) {
 			$scope.person.attributes.name = selected.label;
-			rsvpPerson(selected.value);
+			checkinPerson(selected.value);
 		}
 	};
 
 	function resetTimeout() {
+		$scope.alerts = [];
 		$timeout(reset, 5000);
 	}
 
 	function reset() {
+		$scope.checkedIn = false;
+
+		// Clears form data
 		$scope.dirty = {}
+		$scope.dirty.nNumber = ""
+		$scope.dirty.name = ""
+		$scope.dirty.email = ""
+
+		// Clears record data
 		$scope.person = {attributes:{}};
-		$scope.rsvpd = false;
+
+		// Opens up new parts of the form as needed
+		$scope.needId = true;
 		$scope.needName = false;
 		$scope.needEmail = false;
+
+		// Disables the fields as processing is done
 		$scope.allEntered = false;
+
+		// Toggle for ID field
+		$scope.nyuStudent = true;		
+		
+		// Display error messages if the fields don't validate
+		$scope.nFailValidation = false;
+		$scope.nameFailValidation = false;
+		$scope.emailFailValidation = false;
+
+		// The override for someone who has not rsvp'd
+		$scope.needsRsvpOverride = false;
+
+		// Enables the reset switch after certain actions
+		$scope.canReset = false;
+
+		// Shows the submit button for creating a new account
+		$scope.readyForNew = false;
+
+		// Alert messages
+		$scope.alerts = [];
 	}
 });

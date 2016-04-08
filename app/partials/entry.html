@@ -39,4 +39,10 @@
         	<p ng-hide="rsvpd">Checking you in now...</p>
         </div>
     </div>
+    <div ng-repeat="notice in alerts">
+        <p>{{notice}}</p>
+    </div>
+    <div ng-if="needsRsvpOverride">
+        <p ng-click="override()" role="button" class="button flatButton">Override?</p>
+    </div>
 </div>
