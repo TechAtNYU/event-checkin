@@ -29,6 +29,7 @@ angular
 		return re.test(email);
 	}
 
+
 	$scope.findPersonNumber = function(number) {
 		$scope.nFailValidation = false;
 		if (number.indexOf('=') > -1) {
@@ -94,8 +95,14 @@ angular
 
 		$scope.allEntered = true;
 
+		if ($scope.person.attributes.name) {
+			updatePerson(null, email, checkEmail);
+			return;
+		}
+
 		personExists('people?filter[simple][contact.email]=' + email, function() {
 			$scope.readyForNew = true;
+			$scope.checking = true;
 			$scope.allEntered = false;
 		});
 	}
@@ -120,20 +127,38 @@ angular
 		Restangular.one(url)
 		.get()
 		.then(function(data) {
+			var person;
 			if (data.length > 0) {
-				$scope.person = data[0]
+				person = data[0];
+			}
+			if (data.attributes) {
+				person = data;
+			}
+
+			if (person) {
+				$scope.person = person
 				var p;
-				if ($scope.person.attributes.nNumber != $scope.dirty.nNumber) {
-					p = updatePerson($scope.dirty.nNumber)
+				if ($scope.dirty.nNumber && $scope.person.attributes.nNumber != $scope.dirty.nNumber) {
+					p = updatePerson($scope.dirty.nNumber, "", checkEmail);
 				}
-				$q.when(p, function() {
-					checkAndRsvp($scope.person.id);
-				});
+				else {
+					checkEmail($scope.person);
+				}
 			}
 			else {
 				elseCallback()
 			}
 		});
+	}
+
+	function checkEmail(person) {
+		if (person.attributes.contact && person.attributes.contact.email && person.attributes.contact.email !== '') {
+			$scope.checking = true;
+			checkAndRsvp(person.id)
+		}
+		else {
+			$scope.needEmail = true;
+		}
 	}
 
 	function checkAndRsvp(id) {
@@ -171,19 +196,29 @@ angular
 	
 
 	//updates the person's nNumber record
-	function updatePerson(number) {
+	function updatePerson(number, email, callback) {
 		var personData = {
 			type: "people",
 			id: $scope.person.id,
-			attributes: {}
+			attributes: {
+			}
 		}
 
-		if (number !== "") {
+		if (email && email !== "") {
+			personData.attributes = {
+				'contact.email':email
+			};
+		}
+
+		if (number && number !== "") {
 			personData.attributes.nNumber = number;
 		}
 
 		return Restangular.one('people/' + $scope.person.id)
-		.patch(personData);
+		.patch(personData)
+		.then(function(data) {
+			callback(data);
+		});
 	}
 
 	function createAccount(name, email, number) {
@@ -249,7 +284,8 @@ angular
 		suggest: suggestState,
 		on_select: function(selected) {
 			$scope.person.attributes.name = selected.label;
-			checkinPerson(selected.value);
+			$scope.dirty.value = selected.label;
+			personExists('people/' + selected.value);
 		}
 	};
 
@@ -297,5 +333,8 @@ angular
 
 		// Alert messages
 		$scope.alerts = [];
+
+		// Checking or nah
+		$scope.checking = false;
 	}
 });

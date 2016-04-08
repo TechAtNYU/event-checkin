@@ -28,12 +28,12 @@
         <div ng-if="needEmail">
         	<h2>...and your email?</h2>
         	<form name="email" ng-submit="findPersonEmail(dirty.email)" novalidate>
-            	<input id="emailField" class="button flatButton" type="email" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
+            	<input id="emailField" class="button flatButton" type="email" ng-model="dirty.email" ng-disabled="allEntered" />
                 <p ng-if="emailFailValidation"> Something is wrong with the email entered</p>
             </form>
             <p ng-if="readyForNew" ng-click="submission()" role="button" class="button flatButton">Submit</p>
         </div>
-        <div ng-if="person.attributes.name">
+        <div ng-if="checking && person.attributes.name">
         	<h2>Hello {{person.attributes.name}}!</h2>
         	<p ng-show="rsvpd">You have been successfully signed in!</p>
         	<p ng-hide="rsvpd">Checking you in now...</p>
