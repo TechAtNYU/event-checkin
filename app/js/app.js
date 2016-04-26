@@ -2,11 +2,10 @@
 
 angular.module('app.services', ['restangular']);
 angular.module('app.controllers', ['app.services']);
-angular.module('app',
-				['ngSanitize', 'ui.router', 'ui.bootstrap',
-				'restangular', 'app.services', 'app.directives',
-				'app.controllers', 'cgBusy', 'MassAutoComplete',
-				]).config(function(RestangularProvider) {
+angular.module('app', ['ngSanitize', 'ui.router', 'ui.bootstrap',
+	'restangular', 'app.services', 'app.directives',
+	'app.controllers', 'cgBusy', 'MassAutoComplete',
+]).config(function(RestangularProvider) {
 	RestangularProvider.setBaseUrl('https://api.tnyu.org/v3');
 	// Configuring Restangular to work with JSONAPI spec
 	RestangularProvider.setDefaultHeaders({
@@ -20,7 +19,9 @@ angular.module('app',
 	});
 	RestangularProvider.addRequestInterceptor(function(data, operation) {
 		if (operation == 'post') {
-			return {data: [data]};
+			return {
+				data: [data]
+			};
 		}
 		return {
 			data: data
