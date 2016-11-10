@@ -12,6 +12,11 @@ angular
 
 	$scope.rsvps;
 
+	$scope.seatCount = 0;
+	$scope.totalCheckins = 0;
+	$scope.totalRsvps = 0;
+	$scope.checkinsFromRSVP = 0;
+
 	reset();
 	
 	$scope.validateNNumber = function(number) {
@@ -163,6 +168,7 @@ angular
 
 	function checkAndRsvp(id) {
 		if($scope.rsvps[id]) {
+			$scope.checkinsFromRSVP += 1;
 			checkinPerson(id);
 		}
 		else {
@@ -172,10 +178,12 @@ angular
 	}
 
 	$scope.override = function () {
+		$scope.needsRsvpOverride = false;
 		checkinPerson($scope.person.id);
 	}
 
 	function checkinPerson(id) {
+		$scope.totalCheckins += 1;
 		// Add to checkin
 		var eventData = [];
 		// Adds the person as an attendee relationship to the event
@@ -243,11 +251,19 @@ angular
 		$scope.events = data;
 		var rsvpIds = {};
 		var rsvpsData = data && data.relationships && data.relationships.rsvps && data.relationships.rsvps.data;
+		var checkins = data && data.relationships && data.relationships.attendees && data.relationships.attendees.data;
+		$scope.totalRsvps = rsvpsData.length;
 		_(rsvpsData).forEach(function (val) {
 			rsvpIds[val.id] = true;
+			if (_.find(checkins, val.id) != -1) {
+				$scope.checkinsFromRSVP += 1;
+			}
 		}).value();
 
 		$scope.rsvps = rsvpIds;
+		$scope.totalCheckins = checkins.length;
+
+		var venueId = data && data.relationships && data.relationships.venue && data.relationships.venue.data && data.relationships.venue.data.id;
 
 		// Converting Ids to names for typeahead.
 		Restangular.one('people')
@@ -260,6 +276,13 @@ angular
 					$scope.idToPerson[val.id] = val.attributes.name;
 				}
 			}).value();
+		});
+		Restangular.one('venues/' + venueId)
+		.get()
+		.then(function(data) {
+			if (data && data.attributes && data.attributes.seats) {
+				$scope.seatCount = data.attributes.seats
+			}
 		});
 	});
 
@@ -291,7 +314,7 @@ angular
 
 	function resetTimeout() {
 		$scope.alerts = [];
-		$timeout(reset, 5000);
+		$timeout(reset, 2000);
 	}
 
 	function reset() {

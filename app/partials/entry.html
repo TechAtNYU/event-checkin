@@ -3,7 +3,12 @@
         <h2>{{events.attributes.title}}</h2>
         <p><span>{{events.attributes.description}}</span>
         <span ng-if="canReset" ng-click="resetFields()" role="button" class="button flatButton">Reset</span></p>
-
+        <div>
+            <p>Total RSVPs: {{totalRsvps}}</p>
+            <p>Checkins From RSVP: {{checkinsFromRSVP}}
+            <p>Actual Checkins: {{totalCheckins}}</p>
+            <p>Capacity: {{seatCount}}<p>
+        </div>
         <div ng-if="needId">
             <form name="idNumber" ng-submit="findPersonNumber(dirty.nNumber)" novalidate>
             	<input id="idField" class="button flatButton" type="text" placeholder="Swipe your id" ng-model="dirty.nNumber" ng-disabled="person.attributes.name || needName" autofocus />
