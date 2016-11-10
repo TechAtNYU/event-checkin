@@ -255,7 +255,10 @@ angular
 		$scope.totalRsvps = rsvpsData.length;
 		_(rsvpsData).forEach(function (val) {
 			rsvpIds[val.id] = true;
-			if (_.find(checkins, val.id) != -1) {
+			var index = _.findIndex(checkins, function(current, index) {
+				return current.id == val.id 
+			});
+			if (index != -1) {
 				$scope.checkinsFromRSVP += 1;
 			}
 		}).value();
