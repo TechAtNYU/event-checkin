@@ -1,12 +1,11 @@
 <div cg-busy="{promise: loadingPromise, templateUrl: 'partials/loadingtemplate.html'}">
     <div ng-if="events">
-        <h2>{{events.attributes.title}}</h2>
-        <p><span>{{events.attributes.description}}</span>
-        <span ng-if="canReset" ng-click="resetFields()" role="button" class="button flatButton">Reset</span></p>
-        <div>
+        <h2>{{events.attributes.title}} <span ng-if="canReset" ng-click="resetFields()" role="button" class="button flatButton">Reset</span></h2>
+        <p><span>{{events.attributes.description}}</span></p>
+        <div class="right">
             <p>Total RSVPs: {{totalRsvps}}</p>
             <p>Checkins From RSVP: {{checkinsFromRSVP}}
-            <p>Actual Checkins: {{totalCheckins}}</p>
+            <p>Total Checkins: {{totalCheckins}}</p>
             <p>Capacity: {{seatCount}}<p>
         </div>
         <div ng-if="needId">
@@ -22,11 +21,11 @@
             <span ng-hide="nyuStudent">NYU Student?</span>
         </p>
         <div ng-if="needName">
-        	<h2>Welcome! Can I have your name?</h2>
+        	<h2>Name?</h2>
         	<div mass-autocomplete>
         		<form name="name" ng-submit="findPersonName(dirty.value)" novalidate>
                 	<input id="nameField" class="button flatButton" placeholder="Enter your name" ng-model="dirty.value" mass-autocomplete-item="autocomplete_options" ng-disabled="person.attributes.name || needEmail" />
-                    <p ng-if="nameFailValidation"> Something is wrong with the name entered</p>
+                    <p ng-if="nameFailValidation"> Something is wrong with the name entered (make sure it's first and last!)</p>
                 </form>
             </div>
         </div>
@@ -49,5 +48,6 @@
     </div>
     <div ng-if="needsRsvpOverride">
         <p ng-click="override()" role="button" class="button flatButton">Override?</p>
+        <p ng-click="resetFields()" role="button" class="button flatButton">Reset</p>
     </div>
 </div>
