@@ -181,7 +181,7 @@ angular
 		};
 
 		function resetTimeout() {
-			$timeout(reset, 5000);
+			$timeout(reset, 10000);
 		}
 
 		function reset() {

@@ -11,3 +11,9 @@
     max-width: 30em !important;
     margin: 1em auto;
 }
+
+.opt-in {
+  text-decoration: underline;
+  font-weight: 600;
+  color: green;
+}

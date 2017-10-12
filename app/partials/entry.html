@@ -23,7 +23,9 @@
         </form>
     </div>
     <div ng-if="person.attributes.name">
+
     	<h2>Hello {{person.attributes.name}}!</h2>
+        Want to <a class="opt-in" target="_blank" ng-href="https://mailtrain.tnyu.org/subscription/ryeVfPjte?email={{person.attributes.contact.email || dirty.email}}&firstName={{person.attributes.name}}&subscribe=Sign+Up">opt-in</a> for our newsletter?
     	<p ng-show="rsvpd">You have been successfully signed in!</p>
     	<p ng-hide="rsvpd">Checking you in now...</p>
     </div>
