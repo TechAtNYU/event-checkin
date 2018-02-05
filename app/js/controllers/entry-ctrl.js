@@ -58,19 +58,14 @@ angular
 
 		$scope.addToMailingList = function(person) {
 			var access_token = 'f234e56583e242b25e3f76a7fe4e4789ab98ed0c';
-			var mailtrain_url = 'http://mailtrain.tnyu.org/api/subscribe/HJNc8AuSz'
+			var mailtrain_url = 'http://mailtrain.tnyu.org/api/subscribe/HJNc8AuSz';
 
 			$http({
-				method  : 'POST',
+				method: 'POST',
 				crossDomain: true,
-				url     : mailtrain_url + '?access_token=' + access_token,
-				data:
-					{
-						'EMAIL': person.attributes.contact.email,
-						'REQUIRE_CONFIRMATION': 'yes'
-					}
-			})
-			.success(function(response) {
+				url: mailtrain_url + '?access_token=' + access_token,
+				data: { 'EMAIL': person.attributes.contact.email, 'REQUIRE_CONFIRMATION': 'yes' }
+			}).success(function(response) {
 				alert('success! – ' + response.data.id)
 			})
 		};
