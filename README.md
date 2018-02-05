@@ -5,7 +5,8 @@ Checks people into our events. Tech@NYU heavily relies on our [API](https://api.
 
 For magnetic strip reading, [the card reader used in development can be found here](http://www.amazon.com/gp/product/B00D3D3L8Y?psc=1&redirect=true&ref_=oh_aui_detailpage_o04_s00), however, any card reader the emulates a HID keyboard device should work fine.
 
-##Development
+## Development
+
 To run with production data (on port 3000):
 ```
 git clone ...

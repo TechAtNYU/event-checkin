@@ -2,7 +2,7 @@
 
 angular
 	.module('app.controllers')
-	.controller('EntryCtrl', function($scope, $stateParams, $sce, $q, Restangular, $timeout) {
+	.controller('EntryCtrl', function($scope, $stateParams, $sce, $q, $http, Restangular, $timeout) {
 
 		//used when loading typeahead
 		$scope.shared = $stateParams.config;
@@ -55,6 +55,20 @@ angular
 				});
 			});
 		}
+
+		$scope.addToMailingList = function(person) {
+			var access_token = 'f234e56583e242b25e3f76a7fe4e4789ab98ed0c';
+			var mailtrain_url = 'http://mailtrain.tnyu.org/api/subscribe/HJNc8AuSz';
+
+			$http({
+				method: 'POST',
+				crossDomain: true,
+				url: mailtrain_url + '?access_token=' + access_token,
+				data: { 'EMAIL': person.attributes.contact.email, 'REQUIRE_CONFIRMATION': 'yes' }
+			}).success(function(response) {
+				alert('success! – ' + response.data.id)
+			})
+		};
 
 		function personExists(url, elseCallback) {
 			Restangular.one(url)
@@ -181,7 +195,7 @@ angular
 		};
 
 		function resetTimeout() {
-			$timeout(reset, 5000);
+			$timeout(reset, 10000);
 		}
 
 		function reset() {

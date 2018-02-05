@@ -24,6 +24,12 @@
     </div>
     <div ng-if="person.attributes.name">
     	<h2>Hello {{person.attributes.name}}!</h2>
+        <div ng-if="dirty.email">
+            <!-- can only submit to mailtrain if there's aan available email -->
+            <form ng-submit="addToMailingList(person)">
+              <button type="submit" class="btn flatButton">Auto-subscribe</button>
+            </form>
+        </div>
     	<p ng-show="rsvpd">You have been successfully signed in!</p>
     	<p ng-hide="rsvpd">Checking you in now...</p>
     </div>
