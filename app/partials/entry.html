@@ -22,10 +22,12 @@
         	<input class="button flatButton" type="text" ng-model="dirty.email" ng-disabled="person.attributes.name || allEntered" />
         </form>
     </div>
-    <div ng-if="person.attributes.name">
+    <div ng-if="person.attributes.name && dirty.email">
 
     	<h2>Hello {{person.attributes.name}}!</h2>
-        Want to <a class="opt-in" target="_blank" ng-href="https://mailtrain.tnyu.org/subscription/ryeVfPjte?email={{person.attributes.contact.email || dirty.email}}&firstName={{person.attributes.name}}&subscribe=Sign+Up">opt-in</a> for our newsletter?
+        <form ng-submit="addToMailingList(person)">
+          <button type="submit" class="btn btn-primary">Auto-subscribe</button>
+        </form>
     	<p ng-show="rsvpd">You have been successfully signed in!</p>
     	<p ng-hide="rsvpd">Checking you in now...</p>
     </div>
