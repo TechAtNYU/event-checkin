@@ -18,7 +18,6 @@ angular
 			})
 			.catch(function(error) {
 				$scope.isTeamMember = false;
-				console.log(error);
 			});
 
 		$scope.loadingPromise = Restangular.one('events/public-check-in-eligible?page[limit]=10&sort=%2bstartDateTime')
